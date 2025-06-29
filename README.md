@@ -48,3 +48,24 @@ password-cracker/
 ├── script.js
 ├── images/ # Screenshots or icons
 └── README.md
+---
+
+## 🧑‍💻 Getting Started
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Aman-Deep123456/password-cracker.git
+Open the project:
+
+cd password-cracker
+start index.html
+🙋‍♂️ Author
+Aman Deep
+📧 bhagatamandeep50@gmail.com
+🔗 GitHub Profile
+
+📝 License
+This project is open-source under the MIT License.
+
+⭐️ Show Your Support
+If you found this helpful or interesting, please consider giving a ⭐️ to the repo!
