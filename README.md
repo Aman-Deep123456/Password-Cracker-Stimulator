@@ -25,11 +25,7 @@ A dynamic web application that simulates password cracking using various hashing
 
 ---
 
-## 📸 Preview
 
-> *(Add screenshots here if available)*
-
----
 
 ## 💻 Tech Stack
 
