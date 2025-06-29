@@ -1,0 +1,1220 @@
+/* General Body and Container Styling */
+:root {
+    /* Light Mode Variables */
+    --background-light: #f4f7f6;
+    --text-color-light: #333333; /* Ensured a very dark grey for maximum contrast */
+    --card-background-light: #ffffff;
+    --border-color-light: #e0e0e0;
+    --button-primary-light: #007bff;
+    --button-secondary-light: #6c757d;
+    --button-hover-light: #0056b3;
+    --focus-glow-light: rgba(0, 123, 255, 0.25);
+
+    /* Dark Mode Variables - Adjusted for True Black and Darker Shades */
+    --background-dark: #000000; /* True black for overall body background */
+    --text-color-dark: #e0e0e0;
+    --card-background-dark: #16213e; /* Keep cards slightly off-black for depth */
+    --border-color-dark: #0f3460;
+    --button-primary-dark: #0f3460;
+    --button-secondary-dark: #533483;
+    --button-hover-dark: #4a197b;
+    --focus-glow-dark: rgba(15, 52, 96, 0.5);
+
+    /* New Variable for Animation Glow Color */
+    --animation-glow-color: #00f0ff; /* A vibrant cyan/blue for the glow */
+    --animation-bg-dark: #0a101a; /* A very dark blue for animation container in dark mode */
+
+    /* Strength & Progress Colors */
+    --strength-very-weak: #e74c3c;
+    --strength-weak: #e67e22;
+    --strength-moderate: #f1c40f;
+    --strength-strong: #2ecc71;
+    --strength-very-strong: #27ae60;
+    --progress-fill: #3498db;
+}
+
+/* Base Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+/* NEW: Pseudo-element for the full-screen, blurred background image */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('backgroundImage.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: blur(3px);
+    z-index: -1;
+    transition: filter 0.5s ease-out, opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+/* Light Mode Theme */
+body.light {
+    background-color: rgba(244, 247, 246, 0.85); /* Overlay color/transparency for content area */
+    color: var(--text-color-light); /* Ensure general text color is visible */
+}
+
+/* Dark Mode Theme */
+body.dark {
+    background-color: rgba(0, 0, 0, 0.7); /* Overlay color/transparency for content area */
+    color: var(--text-color-dark);
+}
+
+/* --- Changes for Background Removal on "Analyze Password" Click --- */
+body.no-background-image::before {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Optional: Adjust body background-color when image is gone for full opaque background */
+body.light.no-background-image {
+    background-color: var(--background-light);
+}
+
+body.dark.no-background-image {
+    background-color: var(--background-dark);
+}
+/* --- End Background Removal Changes --- */
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color-light);
+    transition: border-bottom 0.3s ease;
+    position: relative;
+    z-index: 3;
+}
+
+body.dark .header {
+    border-bottom: 1px solid var(--border-color-dark);
+}
+
+/* **CRITICAL FIXES FOR HEADER TEXT VISIBILITY** */
+/* Target the h1 inside header with high specificity */
+.header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    /* Explicitly set color for light mode */
+    color: var(--text-color-light) !important;
+    text-shadow: none !important; /* Ensure no conflicting text shadow */
+    opacity: 1 !important; /* Ensure full opacity */
+    transition: color 0.3s ease;
+}
+
+/* Apply dark mode specific color */
+body.dark .header h1 {
+    color: var(--text-color-dark) !important;
+}
+
+/* Dark Mode Toggle Switch */
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+    font-weight: 600;
+    user-select: none;
+    /* Explicitly set color for light mode labels */
+    color: var(--text-color-light) !important;
+    text-shadow: none !important; /* Ensure no conflicting text shadow */
+    opacity: 1 !important; /* Ensure full opacity */
+    transition: color 0.3s ease;
+}
+
+/* Apply dark mode specific color */
+body.dark .toggle-switch {
+    color: var(--text-color-dark) !important;
+}
+
+.toggle-switch input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-switch .slider {
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.toggle-switch .slider:before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.toggle-switch input:checked + .slider {
+    background-color: var(--button-primary-dark);
+}
+
+.toggle-switch input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* Panel and Card Styling */
+.panel {
+    padding: 20px 0;
+}
+
+/* Keyframe for card entrance animation */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    background-color: var(--card-background-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease-out;
+    animation: fadeInSlideUp 0.6s ease-out forwards;
+    will-change: transform, opacity;
+}
+
+body.dark .card {
+    background-color: var(--card-background-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color-light);
+    padding-bottom: 10px;
+    transition: border-bottom 0.3s ease;
+}
+
+body.dark .card-header {
+    border-bottom: 1px solid var(--border-color-dark);
+}
+
+.card-header .icon-shield,
+.card-header .icon-sword,
+.card-header .icon-progress,
+.card-header .icon-hash {
+    font-size: 1.8em;
+    margin-right: 10px;
+    color: var(--button-primary-light);
+    transition: color 0.3s ease;
+}
+
+body.dark .card-header .icon-shield,
+body.dark .card-header .icon-sword,
+body.dark .card-header .icon-progress,
+body.dark .card-header .icon-hash {
+    color: var(--button-primary-dark);
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--text-color-light); /* Explicitly ensure card header H2 is dark in light mode */
+}
+
+body.dark .card-header h2 {
+    color: var(--text-color-dark);
+}
+
+
+/* --- Main Page Grid Layout (Front Page Section) --- */
+.main-page-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+    min-height: 60vh;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    transition: box-shadow 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.main-page-left-col .card {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+body.dark .main-page-left-col .card {
+    background-color: rgba(22, 33, 62, 0.9);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.main-page-right-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.animation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, var(--card-background-light), #f0f0f0);
+    box-shadow: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.8);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dark Mode Animation Container Styles */
+body.dark .animation-container {
+    background: linear-gradient(145deg, var(--animation-bg-dark), #151e29);
+    box-shadow: 0 0 40px var(--animation-glow-color),
+                0 0 20px var(--animation-glow-color) inset;
+    animation: darkmodeGlowPulse 3s infinite alternate ease-in-out;
+}
+
+/* Keyframe for Dark Mode Glow Pulse */
+@keyframes darkmodeGlowPulse {
+    0% {
+        box-shadow: 0 0 20px var(--animation-glow-color), 0 0 10px var(--animation-glow-color) inset;
+    }
+    100% {
+        box-shadow: 0 0 60px var(--animation-glow-color), 0 0 30px var(--animation-glow-color) inset;
+    }
+}
+
+.animation-key-icon {
+    font-size: 8em;
+    color: var(--button-primary-light);
+    animation: bounceAndRotate 4s ease-in-out infinite;
+    will-change: transform;
+    text-shadow: 0 0 15px rgba(0, 123, 255, 0.4);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* Dark Mode Animation Icon Styles */
+body.dark .animation-key-icon {
+    color: #ffffff;
+    text-shadow: 0 0 30px var(--animation-glow-color),
+                 0 0 15px var(--animation-glow-color);
+}
+
+.animation-text {
+    margin-top: 20px;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* Explicitly ensure visibility in light mode */
+    color: var(--text-color-light) !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+    transition: color 0.3s ease;
+}
+
+/* Dark Mode Animation Text Styles */
+body.dark .animation-text {
+    color: var(--text-color-dark) !important;
+    text-shadow: 0 0 10px var(--animation-glow-color);
+}
+
+/* Keyframe for the animation (large key icon) */
+@keyframes bounceAndRotate {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-20px) rotate(15deg);
+    }
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-10px) rotate(-10deg);
+    }
+}
+/* --- END Main Page Grid Layout --- */
+
+
+/* Password Input and Requirements */
+#passwordInput {
+    width: calc(100% - 22px);
+    padding: 12px 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color-light);
+    border-radius: 5px;
+    font-size: 1.1em;
+    background-color: var(--card-background-light);
+    color: var(--text-color-light) !important; /* Explicitly setting for light mode input */
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark #passwordInput {
+    border: 1px solid var(--border-color-dark);
+    background-color: #0f3460;
+    color: var(--text-color-dark) !important;
+}
+
+#passwordInput:focus {
+    outline: none;
+    border-color: var(--button-primary-light);
+    box-shadow: 0 0 0 3px var(--focus-glow-light);
+}
+
+body.dark #passwordInput:focus {
+    border-color: var(--button-primary-dark);
+    box-shadow: 0 0 0 3px var(--focus-glow-dark);
+}
+
+#passwordInput::placeholder {
+    color: #999;
+}
+
+body.dark #passwordInput::placeholder {
+    color: #a0a0a0;
+}
+
+
+.checkbox-container {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    color: var(--text-color-light) !important; /* Ensure checkbox label is visible */
+}
+
+body.dark .checkbox-container {
+    color: var(--text-color-dark) !important;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: var(--button-primary-light);
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+body.dark .checkbox-container input[type="checkbox"] {
+    accent-color: var(--button-primary-dark);
+}
+
+.password-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color-light);
+    transition: border-top 0.3s ease;
+}
+
+body.dark .password-details {
+    border-top: 1px solid var(--border-color-dark);
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+    color: var(--text-color-light) !important; /* Explicitly for light mode */
+}
+
+body.dark .detail-row {
+    color: var(--text-color-dark) !important;
+}
+
+.strength {
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.strength.very-weak { color: var(--strength-very-weak) !important; }
+.strength.weak { color: var(--strength-weak) !important; }
+.strength.moderate { color: var(--strength-moderate) !important; }
+.strength.strong { color: var(--strength-strong) !important; }
+.strength.very-strong { color: var(--strength-very-strong) !important; }
+
+.progress-bar-simple {
+    width: 100%;
+    background-color: var(--border-color-light);
+    border-radius: 5px;
+    height: 8px;
+    margin-top: 10px;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+body.dark .progress-bar-simple {
+    background-color: var(--border-color-dark);
+}
+
+.progress-fill-simple {
+    height: 100%;
+    background-color: var(--progress-fill);
+    border-radius: 5px;
+    width: 0%;
+    transition: width 0.4s ease-in-out;
+}
+
+.requirements-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.requirements-list li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+    color: var(--text-color-light) !important; /* Explicitly for list items in light mode */
+}
+
+body.dark .requirements-list li {
+    color: var(--text-color-dark) !important;
+}
+
+.requirements-list li .icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.2s ease-out;
+}
+
+/* Success/Fail icons for requirements (SVG Data URLs) */
+.requirements-list li.met .icon {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%232ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-8.98"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>');
+    transform: scale(1.1);
+}
+
+.requirements-list li.not-met .icon {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>');
+    transform: scale(1);
+}
+
+/* Buttons */
+.primary-btn, .secondary-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.primary-btn {
+    background-color: var(--button-primary-light);
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: var(--button-hover-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+}
+
+body.dark .primary-btn {
+    background-color: var(--button-primary-dark);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+body.dark .primary-btn:hover {
+    background-color: var(--button-hover-dark);
+    box-shadow: 0 6px 12px rgba(15, 52, 96, 0.5);
+}
+
+.secondary-btn {
+    background-color: var(--button-secondary-light);
+    color: white;
+}
+
+.secondary-btn:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(108, 117, 125, 0.3);
+}
+
+body.dark .secondary-btn {
+    background-color: var(--button-secondary-dark);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+body.dark .secondary-btn:hover {
+    background-color: #6a4a9c;
+    box-shadow: 0 6px 12px rgba(83, 52, 131, 0.5);
+}
+
+.secondary-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Simulation Panel (Page 2) - Grid Layout */
+.simulation-panel {
+    display: grid;
+    grid-template-areas:
+        "back-btn back-btn"
+        "header header"
+        "target methods"
+        "progress hash";
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding-top: 20px;
+}
+
+/* Assign grid areas to cards */
+.back-button-container {
+    grid-area: back-btn;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.back-btn {
+    width: auto;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.back-btn .arrow-icon {
+    margin-right: 5px;
+    font-size: 1.2em;
+}
+
+.cracking-progress-header {
+    grid-area: header;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cracking-progress-header h2 {
+    font-size: 2em;
+    /* ENSURE VISIBILITY IN LIGHT MODE */
+    color: var(--text-color-light) !important; /* Fallback for direct color, !important added */
+    /* background-image will still apply the gradient, but text-fill-color makes it visible */
+    background-image: linear-gradient(to right, var(--button-primary-light), var(--strength-very-strong));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* This makes the gradient visible */
+    display: inline-block;
+    padding: 0 10px;
+    border-radius: 5px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+body.dark .cracking-progress-header h2 {
+    background-image: linear-gradient(to right, var(--button-primary-dark), var(--strength-very-strong));
+    -webkit-text-fill-color: transparent; /* Keep transparent for gradient */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.02); opacity: 0.95; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.card-target-password { grid-area: target; }
+.card-attack-methods { grid-area: methods; }
+.card-cracking-progress { grid-area: progress; }
+.card-hash-details { grid-area: hash; }
+
+
+/* Target Password Card */
+.password-display-area {
+    background-color: var(--border-color-light);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease;
+    color: var(--text-color-light) !important; /* Explicitly for text in this area */
+}
+
+body.dark .password-display-area {
+    background-color: #0d2745;
+    color: var(--text-color-dark) !important;
+}
+
+.password-display-area p {
+    margin: 5px 0;
+}
+
+.masked-password {
+    font-family: 'Courier New', monospace;
+    font-size: 1.5em;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* Attack Methods Card */
+.attack-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.attack-option-label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+    padding: 15px;
+    transition: all 0.2s ease-in-out, box-shadow 0.2s ease;
+    color: var(--text-color-light) !important; /* Explicitly for labels in light mode */
+}
+
+body.dark .attack-option-label {
+    border: 1px solid var(--border-color-dark);
+    color: var(--text-color-dark) !important;
+}
+
+.attack-option-label:hover {
+    box-shadow: 0 0 10px var(--focus-glow-light);
+    transform: translateY(-2px);
+}
+
+body.dark .attack-option-label:hover {
+    box-shadow: 0 0 15px var(--focus-glow-dark);
+}
+
+.attack-option-label input[type="radio"] {
+    margin-right: 15px;
+    margin-top: 3px;
+    accent-color: var(--button-primary-light);
+}
+
+body.dark .attack-option-label input[type="radio"] {
+    accent-color: var(--button-primary-dark);
+}
+
+/* Ensure the text within these labels is visible */
+.attack-option-label input[type="radio"]:checked + .attack-option-content {
+    color: var(--button-primary-light) !important; /* Keep primary color for checked state */
+}
+body.dark .attack-option-label input[type="radio"]:checked + .attack-option-content {
+    color: var(--button-primary-dark) !important;
+}
+
+.attack-option-content h2 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: var(--text-color-light) !important; /* Ensure content h2 is visible */
+}
+
+body.dark .attack-option-content h2 {
+    color: var(--text-color-dark) !important;
+}
+
+.attack-option-content p {
+    font-size: 0.85em;
+    color: #777 !important; /* Default for light mode */
+    margin: 5px 0 0 0;
+}
+
+body.dark .attack-option-content p {
+    color: #b0b0b0 !important; /* Darker for dark mode */
+}
+
+.tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75em;
+    font-weight: bold;
+    margin-left: 10px;
+    color: white !important; /* Tags should always have white text for contrast */
+}
+
+.green-tag { background-color: var(--strength-strong); }
+.orange-tag { background-color: var(--strength-weak); }
+.blue-tag { background-color: var(--progress-fill); }
+
+/* Cracking Progress Card */
+.progress-info {
+    margin-bottom: 20px;
+    color: var(--text-color-light) !important; /* Explicitly for light mode */
+}
+
+body.dark .progress-info {
+    color: var(--text-color-dark) !important;
+}
+
+.progress-info strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#crackingProgressPercentage {
+    float: right;
+    font-weight: bold;
+    color: var(--progress-fill) !important;
+    transition: color 0.3s ease;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: var(--border-color-light);
+    border-radius: 5px;
+    height: 12px;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+body.dark .progress-bar {
+    background-color: var(--border-color-dark);
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--progress-fill);
+    border-radius: 5px;
+    width: 0%;
+    transition: width 0.4s ease-in-out;
+}
+
+.current-attempt-label {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: var(--text-color-light) !important; /* Explicitly for light mode */
+}
+
+body.dark .current-attempt-label {
+    color: var(--text-color-dark) !important;
+}
+
+.current-attempt-value {
+    font-family: 'Courier New', monospace;
+    font-size: 1.1em;
+    background-color: var(--border-color-light);
+    padding: 8px 12px;
+    border-radius: 5px;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    user-select: all;
+    margin-top: 15px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    color: var(--text-color-light) !important; /* Explicitly for light mode */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark .current-attempt-value {
+    background-color: #0d2745;
+    color: var(--text-color-dark) !important;
+}
+
+.attempt-log {
+    background-color: var(--border-color-light);
+    border-radius: 5px;
+    padding: 10px;
+    height: 150px;
+    overflow-y: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    margin-top: 15px;
+    color: var(--text-color-light) !important; /* Explicitly for log text in light mode */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    resize: vertical;
+    min-height: 50px;
+}
+
+body.dark .attempt-log {
+    background-color: #0d2745;
+    color: var(--text-color-dark) !important;
+}
+
+.attempt-log p {
+    margin: 2px 0;
+    line-height: 1.4;
+}
+
+.attempt-log .no-attempts {
+    color: #888 !important;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.control-panel {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color-light);
+    transition: border-top 0.3s ease;
+}
+
+body.dark .control-panel {
+    border-top: 1px solid var(--border-color-dark);
+}
+
+.control-panel label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-color-light) !important; /* Explicitly for light mode */
+}
+
+body.dark .control-panel label {
+    color: var(--text-color-dark) !important;
+}
+
+#speedRange {
+    width: calc(100% - 60px);
+    margin-right: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: var(--border-color-light);
+    outline: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+body.dark #speedRange {
+    background: var(--border-color-dark);
+}
+
+/* Custom styling for the range slider thumb */
+#speedRange::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--progress-fill);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+#speedRange::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+#speedRange::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--progress-fill);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+#speedRange::-moz-range-thumb:hover {
+    transform: scale(1.1);
+}
+
+#speedValue {
+    display: inline-block;
+    width: 40px;
+    text-align: right;
+    font-weight: bold;
+    color: var(--text-color-light) !important; /* Explicitly for light mode */
+}
+
+body.dark #speedValue {
+    color: var(--text-color-dark) !important;
+}
+
+.control-panel .buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.control-panel .buttons .primary-btn,
+.control-panel .buttons .secondary-btn {
+    width: auto;
+    flex: 1;
+    margin-top: 0;
+}
+
+/* Hash Details Card */
+.hash-label {
+    margin-top: 15px;
+    font-weight: 600;
+    color: var(--text-color-light) !important; /* Explicitly for light mode */
+}
+
+body.dark .hash-label {
+    color: var(--text-color-dark) !important;
+}
+
+.hash-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.hash-option-label {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid var(--border-color-light);
+    border-radius: 5px;
+    padding: 10px 15px;
+    transition: all 0.2s ease-in-out, box-shadow 0.2s ease;
+    color: var(--text-color-light) !important; /* Explicitly for light mode */
+}
+
+body.dark .hash-option-label {
+    border: 1px solid var(--border-color-dark);
+    color: var(--text-color-dark) !important;
+}
+
+.hash-option-label:hover {
+    box-shadow: 0 0 8px var(--focus-glow-light);
+}
+
+body.dark .hash-option-label:hover {
+    box-shadow: 0 0 10px var(--focus-glow-dark);
+}
+
+.hash-option-label input[type="radio"] {
+    margin-right: 10px;
+    accent-color: var(--button-primary-light);
+}
+
+body.dark .hash-option-label input[type="radio"] {
+    accent-color: var(--button-primary-dark);
+}
+
+/* Ensure the text next to radio button is visible */
+.hash-option-label input[type="radio"]:checked + span {
+    color: var(--button-primary-light) !important;
+}
+body.dark .hash-option-label input[type="radio"]:checked + span {
+    color: var(--button-primary-dark) !important;
+}
+
+
+.hash-option-label .tag {
+    margin-left: auto;
+    font-size: 0.7em;
+    padding: 2px 6px;
+    opacity: 0.8;
+}
+
+.tag.easy { background-color: #5cb85c; color: white; }
+.tag.very-easy { background-color: #d9534f; color: white; }
+.tag.moderate { background-color: #f0ad4e; color: white; }
+.tag.difficult { background-color: #5bc0de; color: white; }
+.tag.very-difficult { background-color: #2e6da4; color: white; }
+.tag.extremely-difficult { background-color: #4a197b; color: white; }
+
+
+#generatedHash {
+    background-color: var(--border-color-light);
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    user-select: all;
+    margin-top: 10px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    color: var(--text-color-light) !important; /* Explicitly for light mode */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark #generatedHash {
+    background-color: #0d2745;
+    color: var(--text-color-dark) !important;
+}
+
+/* Utility Classes for display */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header h1 {
+        margin-bottom: 10px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .primary-btn, .secondary-btn {
+        font-size: 0.95em;
+    }
+
+    /* Stack simulation panels vertically on smaller screens */
+    .simulation-panel {
+        grid-template-areas:
+            "back-btn"
+            "header"
+            "target"
+            "methods"
+            "progress"
+            "hash";
+        grid-template-columns: 1fr;
+    }
+
+    /* Main Page Grid for smaller screens */
+    .main-page-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        min-height: auto;
+        padding: 20px;
+    }
+
+    .main-page-right-col {
+        height: auto;
+        padding: 0;
+        order: -1;
+        margin-bottom: 20px;
+    }
+
+    .animation-container {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
+    }
+
+    .animation-key-icon {
+        font-size: 4em;
+    }
+
+    .animation-text {
+        font-size: 1em;
+    }
+
+    .control-panel .buttons {
+        flex-direction: column;
+    }
+
+    /* Adjust hash options for smaller screens */
+    .hash-options {
+        flex-direction: column;
+    }
+
+    .hash-option-label {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.5em;
+    }
+
+    .toggle-switch {
+        font-size: 0.8em;
+    }
+
+    .card-header h2 {
+        font-size: 1.3em;
+    }
+
+    #passwordInput {
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    .detail-row {
+        font-size: 0.9em;
+    }
+
+    .requirements-list li {
+        font-size: 0.85em;
+    }
+
+    .attack-option-content p {
+        font-size: 0.8em;
+    }
+
+    .hash-option-label {
+        font-size: 0.9em;
+    }
+
+    #generatedHash {
+        font-size: 0.85em;
+    }
+}

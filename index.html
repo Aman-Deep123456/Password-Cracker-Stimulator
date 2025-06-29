@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Password Analyzer</h1>
+            <div class="toggle-switch">
+                <span>Light Mode</span>
+                <input type="checkbox" id="themeToggle">
+                <label for="themeToggle" class="slider"></label>
+                <span>Dark Mode</span>
+            </div>
+        </header>
+
+        <main id="firstPage" class="panel">
+            <div class="main-page-grid">
+                <div class="main-page-left-col">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="icon-shield">&#128737;</span> <h2>Password Security Check</h2>
+                        </div>
+                        <p>Enter your password below to instantly check its strength and see a detailed breakdown of security requirements.</p>
+                        <input type="password" id="passwordInput" placeholder="Enter your password">
+
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="showPassword">
+                            <label for="showPassword">Show Password</label>
+                        </div>
+
+                        <div class="password-details">
+                            <div class="detail-row">
+                                <span>Strength:</span>
+                                <span id="passwordStrength" class="strength very-weak">Very Weak</span>
+                            </div>
+                            <div class="progress-bar-simple">
+                                <div id="strengthProgressBar" class="progress-fill-simple"></div>
+                            </div>
+                            <ul class="requirements-list" id="requirementsList">
+                                <li class="not-met"><span class="icon"></span> At least 8 characters</li>
+                                <li class="not-met"><span class="icon"></span> Contains uppercase letter</li>
+                                <li class="not-met"><span class="icon"></span> Contains lowercase letter</li>
+                                <li class="not-met"><span class="icon"></span> Contains a number</li>
+                                <li class="not-met"><span class="icon"></span> Contains a special character</li>
+                                <li class="not-met"><span class="icon"></span> Not a common password</li>
+                            </ul>
+                        </div>
+                        <button id="analyzePasswordBtn" class="primary-btn">Analyze Password</button>
+                    </div>
+                </div>
+                <div class="main-page-right-col">
+                    <div class="animation-container">
+                        <span class="animation-key-icon">&#128272;</span> <div class="animation-text">Secure Your Keys</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <main id="simulationPage" class="panel hidden"> <div class="back-button-container">
+                <button id="backToMainBtn" class="secondary-btn back-btn">
+                    <span class="arrow-icon">&larr;</span> Back to Main
+                </button>
+            </div>
+
+            <div class="cracking-progress-header">
+                <h2>Password Cracking Simulation</h2>
+            </div>
+
+            <div class="simulation-panel">
+                <div class="card card-target-password">
+                    <div class="card-header">
+                        <span class="icon-shield">&#128737;</span>
+                        <h2>Target Password</h2>
+                    </div>
+                    <div class="password-display-area">
+                        <p>Your password:</p>
+                        <p id="targetPasswordDisplay" class="masked-password">********</p>
+                    </div>
+                    <p>This is a simulation to demonstrate how quickly your password could be cracked using various attack methods.</p>
+                </div>
+
+                <div class="card card-attack-methods">
+                    <div class="card-header">
+                        <span class="icon-sword">&#x2694;</span>
+                        <h2>Attack Methods</h2>
+                    </div>
+                    <div class="attack-options">
+                        <label class="attack-option-label">
+                            <input type="radio" name="attackMethod" value="bruteForce" checked>
+                            <div class="attack-option-content">
+                                <h2>Brute Force <span class="tag orange-tag">Slow</span></h2>
+                                <p>Tries every possible combination of characters until the password is found.</p>
+                            </div>
+                        </label>
+                        <label class="attack-option-label">
+                            <input type="radio" name="attackMethod" value="dictionary">
+                            <div class="attack-option-content">
+                                <h2>Dictionary Attack <span class="tag green-tag">Fast</span></h2>
+                                <p>Uses a list of common words and phrases. Effective against weak passwords.</p>
+                            </div>
+                        </label>
+                        <label class="attack-option-label">
+                            <input type="radio" name="attackMethod" value="hybrid">
+                            <div class="attack-option-content">
+                                <h2>Hybrid Attack <span class="tag blue-tag">Moderate</span></h2>
+                                <p>Combines dictionary attacks with variations (numbers, symbols, capitalization).</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card card-cracking-progress">
+                    <div class="card-header">
+                        <span class="icon-progress">&#x231B;</span>
+                        <h2>Cracking Progress</h2>
+                    </div>
+                    <div class="progress-info">
+                        <strong>Progress: <span id="crackingProgressPercentage">0%</span></strong>
+                        <div class="progress-bar">
+                            <div id="crackingProgressBar" class="progress-fill"></div>
+                        </div>
+                    </div>
+                    <p class="current-attempt-label">Current Attempt:</p>
+                    <div id="currentAttemptValue" class="current-attempt-value"></div>
+                    <div id="attemptLog" class="attempt-log">
+                        <p class="no-attempts">No attempts yet...</p>
+                    </div>
+                    <div class="control-panel">
+                        <label for="speedRange">Simulation Speed: <span id="speedValue">1x</span></label>
+                        <input type="range" id="speedRange" min="0.1" max="5" step="0.1" value="1">
+                        <div class="buttons">
+                            <button id="startSimulationBtn" class="primary-btn">Start Simulation</button>
+                            <button id="pauseSimulationBtn" class="secondary-btn" disabled>Pause</button>
+                            <button id="resetSimulationBtn" class="secondary-btn" disabled>Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-hash-details">
+                    <div class="card-header">
+                        <span class="icon-hash">&#x23;</span>
+                        <h2>Password Hash Details</h2>
+                    </div>
+                    <p class="hash-label">Select a Hash Algorithm:</p>
+                    <div class="hash-options">
+                        <label class="hash-option-label">
+                            <input type="radio" name="hashType" value="md5">
+                            <span>MD5 <span class="tag easy">Easy</span></span>
+                        </label>
+                        <label class="hash-option-label">
+                            <input type="radio" name="hashType" value="sha1">
+                            <span>SHA-1 <span class="tag very-easy">Very Easy</span></span>
+                        </label>
+                        <label class="hash-option-label">
+                            <input type="radio" name="hashType" value="sha256" checked>
+                            <span>SHA-256 <span class="tag moderate">Moderate</span></span>
+                        </label>
+                        <label class="hash-option-label">
+                            <input type="radio" name="hashType" value="bcrypt">
+                            <span>Bcrypt <span class="tag difficult">Difficult</span></span>
+                        </label>
+                        <label class="hash-option-label">
+                            <input type="radio" name="hashType" value="argon2">
+                            <span>Argon2 <span class="tag very-difficult">Very Difficult</span></span>
+                        </label>
+                        <label class="hash-option-label">
+                            <input type="radio" name="hashType" value="scrypt">
+                            <span>Scrypt <span class="tag extremely-difficult">Extremely Difficult</span></span>
+                        </label>
+                    </div>
+                    <p class="hash-label">Generated Hash:</p>
+                    <div id="generatedHash"></div>
+                    <button id="copyHashBtn" class="secondary-btn">Copy Hash</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
