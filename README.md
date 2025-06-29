@@ -61,10 +61,14 @@ cd password-cracker
 
 start index.html
 
-🙋‍♂️ Author
-Aman Deep
-📧 bhagatamandeep50@gmail.com
-🔗 GitHub Profile
+
+## 🙋‍♂️ Author
+
+**Aman Deep**  
+📧 Email: [bhagatamandeep50@gmail.com](mailto:bhagatamandeep50@gmail.com)  
+🔗 GitHub: [Aman-Deep123456](https://github.com/Aman-Deep123456)
+
+
 📝 License
 This project is open-source under the MIT License.
 
