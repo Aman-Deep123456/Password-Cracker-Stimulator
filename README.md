@@ -1,43 +1,50 @@
-<h1 align="center">🌐 Password cracker </h1>
+# 🔐 Password Cracker
 
-<p align="center">
-  A modern, responsive web application built with HTML, CSS, and JavaScript.
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/github/languages/top/Aman-Deep123456/your-repo-name" alt="Top Language" />
-  <img src="https://img.shields.io/github/repo-size/Aman-Deep123456/your-repo-name" alt="Repo Size" />
-  <img src="https://img.shields.io/github/last-commit/Aman-Deep123456/your-repo-name" alt="Last Commit" />
-</p>
+A dynamic web application that simulates password cracking using various hashing techniques and evaluates password strength with a visually interactive UI.
 
 ---
 
-## ✨ Features
+## 🚀 Features
 
-- ⚡ Lightning-fast UI
-- 📱 Fully responsive design (mobile-first)
-- 🎨 Modern layout with clean visuals
-- 🔧 Modular, easy-to-read codebase
-- 🧠 Vanilla JS functionality (no frameworks)
-
----
-
-## 📸 Screenshots
-
-| Desktop View | Mobile View |
-|--------------|-------------|
-| ![Desktop Screenshot](images/screenshot-desktop.png) | ![Mobile Screenshot](images/screenshot-mobile.png) |
-
-> *Add your own screenshots inside the `/images` folder and update the paths above.*
+- 🔍 Simulates cracking of hashed passwords (MD5, SHA-1, SHA-256, etc.)
+- 💪 Real-time password strength checker
+- 🧠 Educational: learn how hashing algorithms affect security
+- 🖥️ Dynamic and responsive user interface built with HTML, CSS, and JavaScript
 
 ---
 
-## 📁 Folder Structure
+## 🧪 How It Works
 
-```bash
-your-project/
+1. User enters a password.
+2. The app hashes the password using different algorithms.
+3. The system attempts to crack the hash by comparing it to a dictionary or brute force simulation.
+4. Shows:
+   - Hash output
+   - Cracking progress or result
+   - Password strength with visual indicators
+
+---
+
+## 📸 Preview
+
+> *(Add screenshots here if available)*
+
+---
+
+## 💻 Tech Stack
+
+- **HTML5** – Structure
+- **CSS3** – Styling and animations
+- **JavaScript (ES6)** – Hashing logic, cracking simulation, UI interactivity
+- *(Optional libraries: CryptoJS, zxcvbn, etc.)*
+
+---
+
+## 📂 Folder Structure
+
+password-cracker/
 ├── index.html
 ├── style.css
 ├── script.js
-├── images/
+├── images/ # Screenshots or icons
 └── README.md
