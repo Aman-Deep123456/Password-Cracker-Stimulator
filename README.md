@@ -63,12 +63,8 @@ start index.html
 
 🙋‍♂️ Author
 Aman Deep
-
 📧 bhagatamandeep50@gmail.com
-
 🔗 GitHub Profile
-
-
 📝 License
 This project is open-source under the MIT License.
 
